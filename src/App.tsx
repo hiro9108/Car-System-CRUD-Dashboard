@@ -16,7 +16,7 @@ const rootStyle = css`
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-  const data = useSelector(selectCarStatus);
+  const status = useSelector(selectCarStatus);
 
   useEffect(() => {
     api
@@ -32,7 +32,7 @@ const App: React.FC = () => {
       <HeaderBar />
       <div>
         {/* <VerticalBar /> */}
-        <TableList cars={data.status} />
+        <TableList cars={status} />
       </div>
     </div>
   );

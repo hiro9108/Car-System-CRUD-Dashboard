@@ -8,6 +8,7 @@ type TextFieldProps = {
   css?: SerializedStyles;
   className?: string;
   placeholder?: string;
+  value?: string;
   name: string;
   register: UseFormRegister<FieldValues>;
 };
@@ -25,6 +26,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   css,
   className,
   placeholder,
+  value,
   name,
   register,
 }) => {
@@ -35,6 +37,7 @@ export const TextField: React.FC<TextFieldProps> = ({
       type="text"
       className={className}
       placeholder={placeholder}
+      value={value}
       {...register(name)}
     />
   );

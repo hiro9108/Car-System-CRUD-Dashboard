@@ -3,7 +3,10 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/lv1";
 import { LabelTextField, LabelCheckbox } from "@/components/lv2";
 
-export const FormField: React.FC<{ onSubmit: any }> = ({ onSubmit }) => {
+export const FormField: React.FC<{ onSubmit?: any; value?: any }> = ({
+  onSubmit,
+  value,
+}) => {
   const { register, handleSubmit } = useForm();
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-96">
@@ -13,6 +16,7 @@ export const FormField: React.FC<{ onSubmit: any }> = ({ onSubmit }) => {
         placeholder="make"
         label="MAKE"
         name="make"
+        value={value.make}
         register={register}
       />
       <LabelTextField
@@ -21,6 +25,7 @@ export const FormField: React.FC<{ onSubmit: any }> = ({ onSubmit }) => {
         placeholder="model"
         label="MODEL"
         name="model"
+        value={value.make}
         register={register}
       />
       <LabelTextField
@@ -29,6 +34,7 @@ export const FormField: React.FC<{ onSubmit: any }> = ({ onSubmit }) => {
         placeholder="year"
         label="YEAR"
         name="year"
+        value={value.year}
         register={register}
       />
       <LabelTextField
@@ -37,6 +43,7 @@ export const FormField: React.FC<{ onSubmit: any }> = ({ onSubmit }) => {
         placeholder="price"
         label="PRICE"
         name="price"
+        value={value.price}
         register={register}
       />
       <LabelCheckbox
@@ -44,6 +51,7 @@ export const FormField: React.FC<{ onSubmit: any }> = ({ onSubmit }) => {
         className="block my-8 mx-16"
         label="Sold this vehicle?"
         name="status"
+        value={value.status}
         register={register}
       />
       <div className="flex justify-around items-center">

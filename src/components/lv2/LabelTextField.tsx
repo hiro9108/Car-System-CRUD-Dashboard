@@ -8,6 +8,7 @@ type LabelTextFieldProps = {
   css?: SerializedStyles;
   className?: string;
   placeholder?: string;
+  value?: string;
   label: string;
   name: string;
   register: UseFormRegister<FieldValues>;
@@ -18,6 +19,7 @@ export const LabelTextField: React.FC<LabelTextFieldProps> = ({
   css,
   className,
   placeholder,
+  value,
   label,
   name,
   register,
@@ -30,6 +32,7 @@ export const LabelTextField: React.FC<LabelTextFieldProps> = ({
         css={css}
         className={className}
         placeholder={placeholder}
+        value={value}
         name={name}
         register={register}
       />

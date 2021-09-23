@@ -34,6 +34,8 @@ export const carStatusSlice = createSlice({
 
 export const { init, create } = carStatusSlice.actions;
 
-export const selectCarStatus = (state: RootState) => state.carStatusReducer;
+export const selectCarStatus = (state: RootState) => {
+  return state.carStatusReducer.status;
+};
 
 export default carStatusSlice.reducer;

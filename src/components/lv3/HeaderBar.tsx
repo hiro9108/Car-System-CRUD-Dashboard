@@ -25,7 +25,7 @@ export const HeaderBar: React.FC = () => {
     setIsOpen(true);
   }, []);
 
-  const onCreateSubmit = async (data: any) => {
+  const onCreateHandler = async (data: any) => {
     const { make, model, year, price, status } = data;
 
     try {
@@ -58,7 +58,7 @@ export const HeaderBar: React.FC = () => {
           Add New Vehicle
         </Button>
         <Modal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}>
-          <FormField onSubmit={onCreateSubmit} />
+          <FormField onSubmit={onCreateHandler} />
         </Modal>
       </div>
       <SearchBox />

@@ -7,6 +7,7 @@ type LLabelCheckboxProps = {
   id?: string;
   css?: SerializedStyles;
   className?: string;
+  value?: boolean;
   label: string;
   name: string;
   register: UseFormRegister<FieldValues>;
@@ -18,6 +19,7 @@ export const LabelCheckbox: React.FC<LLabelCheckboxProps> = ({
   className,
   label,
   name,
+  value,
   register,
 }) => {
   return (
@@ -28,6 +30,7 @@ export const LabelCheckbox: React.FC<LLabelCheckboxProps> = ({
         css={css}
         className={className}
         name={name}
+        value={value}
         register={register}
       />
     </div>
