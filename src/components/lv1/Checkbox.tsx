@@ -20,7 +20,7 @@ export const Checkbox: React.FC<{
     type="checkbox"
     css={[rootStyle, css]}
     className={className}
-    checked={value}
+    defaultChecked={value}
     {...register(name)}
   />
 );

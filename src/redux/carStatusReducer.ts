@@ -17,7 +17,7 @@ export const carStatusSlice = createSlice({
     init: (state, action: { payload: CAR_STATUS[] }) => {
       state.status = action.payload;
     },
-    create: (state, action) => {
+    create: (state, action: { payload: CAR_STATUS }) => {
       const { _id, make, model, year, price, status } = action.payload;
       const createObj: CAR_STATUS = {
         _id,
@@ -29,10 +29,15 @@ export const carStatusSlice = createSlice({
       };
       state.status = [...state.status, createObj];
     },
+    update: (state, action: { payload: CAR_STATUS }) => {
+      state.status = state.status.map((el) =>
+        el._id === action.payload._id ? action.payload : el
+      );
+    },
   },
 });
 
-export const { init, create } = carStatusSlice.actions;
+export const { init, create, update } = carStatusSlice.actions;
 
 export const selectCarStatus = (state: RootState) => {
   return state.carStatusReducer.status;

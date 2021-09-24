@@ -11,6 +11,7 @@ type TextFieldProps = {
   value?: string;
   name: string;
   register: UseFormRegister<FieldValues>;
+  validation?: { required: string };
 };
 
 const rootStyle = css`
@@ -29,6 +30,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   value,
   name,
   register,
+  validation,
 }) => {
   return (
     <input
@@ -37,8 +39,8 @@ export const TextField: React.FC<TextFieldProps> = ({
       type="text"
       className={className}
       placeholder={placeholder}
-      value={value}
-      {...register(name)}
+      defaultValue={value}
+      {...register(name, validation)}
     />
   );
 };

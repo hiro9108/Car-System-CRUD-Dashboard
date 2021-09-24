@@ -3,7 +3,7 @@ import { SerializedStyles } from "@emotion/react";
 import { UseFormRegister, FieldValues } from "react-hook-form";
 import { Checkbox, Label } from "@/components/lv1";
 
-type LLabelCheckboxProps = {
+type LabelCheckboxProps = {
   id?: string;
   css?: SerializedStyles;
   className?: string;
@@ -13,7 +13,7 @@ type LLabelCheckboxProps = {
   register: UseFormRegister<FieldValues>;
 };
 
-export const LabelCheckbox: React.FC<LLabelCheckboxProps> = ({
+export const LabelCheckbox: React.FC<LabelCheckboxProps> = ({
   id,
   css,
   className,

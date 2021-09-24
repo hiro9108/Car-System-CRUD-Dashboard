@@ -3,21 +3,29 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/lv1";
 import { LabelTextField, LabelCheckbox } from "@/components/lv2";
 
-export const FormField: React.FC<{ onSubmit?: any; value?: any }> = ({
-  onSubmit,
-  value,
-}) => {
-  const { register, handleSubmit } = useForm();
+export const FormField: React.FC<{
+  onSubmit?: any;
+  value?: any;
+}> = ({ onSubmit, value }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-96">
+      <span>{errors.make && errors.make.message}</span>
       <LabelTextField
         id="make"
         className="mt-1 mb-8"
         placeholder="make"
         label="MAKE"
         name="make"
-        value={value.make}
+        value={value?.make}
         register={register}
+        validation={{
+          required: "Not allowed empty",
+        }}
       />
       <LabelTextField
         id="model"
@@ -25,7 +33,7 @@ export const FormField: React.FC<{ onSubmit?: any; value?: any }> = ({
         placeholder="model"
         label="MODEL"
         name="model"
-        value={value.make}
+        value={value?.model}
         register={register}
       />
       <LabelTextField
@@ -34,7 +42,7 @@ export const FormField: React.FC<{ onSubmit?: any; value?: any }> = ({
         placeholder="year"
         label="YEAR"
         name="year"
-        value={value.year}
+        value={value?.year}
         register={register}
       />
       <LabelTextField
@@ -43,7 +51,7 @@ export const FormField: React.FC<{ onSubmit?: any; value?: any }> = ({
         placeholder="price"
         label="PRICE"
         name="price"
-        value={value.price}
+        value={value?.price}
         register={register}
       />
       <LabelCheckbox
@@ -51,12 +59,20 @@ export const FormField: React.FC<{ onSubmit?: any; value?: any }> = ({
         className="block my-8 mx-16"
         label="Sold this vehicle?"
         name="status"
-        value={value.status}
+        value={value?.status}
         register={register}
       />
       <div className="flex justify-around items-center">
-        <Button type="submit">Sold</Button>
-        <Button type="submit">Update</Button>
+        {value ? (
+          <>
+            <Button type="submit">Sold</Button>
+            <Button type="submit">Update</Button>
+          </>
+        ) : (
+          <>
+            <Button type="submit">Add</Button>
+          </>
+        )}
       </div>
     </form>
   );

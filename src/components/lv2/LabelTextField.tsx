@@ -12,6 +12,7 @@ type LabelTextFieldProps = {
   label: string;
   name: string;
   register: UseFormRegister<FieldValues>;
+  validation?: { required: string };
 };
 
 export const LabelTextField: React.FC<LabelTextFieldProps> = ({
@@ -23,6 +24,7 @@ export const LabelTextField: React.FC<LabelTextFieldProps> = ({
   label,
   name,
   register,
+  validation,
 }) => {
   return (
     <div className="flex flex-col">
@@ -35,6 +37,7 @@ export const LabelTextField: React.FC<LabelTextFieldProps> = ({
         value={value}
         name={name}
         register={register}
+        validation={validation}
       />
     </div>
   );

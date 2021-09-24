@@ -1,13 +1,13 @@
 import React, { useState, useCallback } from "react";
 import Swal from "sweetalert2";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { css } from "@emotion/react";
 import { faPen, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { api } from "@/utils/api";
-import { selectCarStatus } from "@/redux/carStatusReducer";
-import { VIEW_MSG } from "@/constants";
+import { selectCarStatus, update } from "@/redux/carStatusReducer";
+import { VIEW_MSG, UPDATE_MSG } from "@/constants";
 import { CAR_STATUS } from "@/types/globalTypes";
 import { FormField } from "@/components/lv2";
 import { Modal } from "@/components/lv4";
@@ -38,18 +38,10 @@ const iconStyle = css`
 export const TableList: React.FC<{ cars: CAR_STATUS[] }> = ({ cars }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [updateModalData, setUpdateModalData] = useState<CAR_STATUS>();
-  const status = useSelector(selectCarStatus);
+  const [targetId, setTargetId] = useState<string>();
 
-  const openUpdateCarModal = useCallback(
-    (e) => {
-      const findStatus = status.find((el) => {
-        return el._id === parseInt(e.target.id);
-      });
-      setUpdateModalData(findStatus);
-      setIsOpen(true);
-    },
-    [status]
-  );
+  const status = useSelector(selectCarStatus);
+  const dispatch = useDispatch();
 
   const onViewHandler = useCallback(async (e) => {
     try {
@@ -86,33 +78,50 @@ export const TableList: React.FC<{ cars: CAR_STATUS[] }> = ({ cars }) => {
     }
   }, []);
 
-  const onUpdateHandler = useCallback(async (e) => {
-    const params = e.target.id;
-    console.log(params);
+  const openUpdateCarModal = useCallback(
+    (e) => {
+      const targetId = e.target.id;
 
-    // TODO: Edit
+      const findStatus = status.find((el) => {
+        return el._id === parseInt(targetId);
+      });
 
-    // try {
-    //   // const res = await api.post("/", {
-    //   //   make,
-    //   //   model,
-    //   //   year,
-    //   //   price,
-    //   //   status,
-    //   // });
+      setTargetId(targetId);
+      setUpdateModalData(findStatus);
+      setIsOpen(true);
+    },
+    [status]
+  );
 
-    //   if (res.status === 201) {
-    //     // Update the store
-    //     dispatch(create(res.data.car));
-    //     Swal.fire(CREATE_MSG.success);
-    //     setIsOpen(false);
-    //   } else {
-    //     Swal.fire(CREATE_MSG.fail.unexpected);
-    //   }
-    // } catch (err) {
-    //   Swal.fire(CREATE_MSG.fail[400]);
-    // }
-  }, []);
+  const onUpdateHandler = useCallback(
+    async (data) => {
+      if (updateModalData === undefined) return;
+
+      try {
+        const { make, model, year, price, status } = data;
+
+        const res = await api.put(`/${targetId}`, {
+          make,
+          model,
+          year,
+          price,
+          status,
+        });
+
+        if (res.status === 201) {
+          // Update the store
+          dispatch(update(res.data.car));
+          Swal.fire(UPDATE_MSG.success);
+          setIsOpen(false);
+        } else {
+          Swal.fire(UPDATE_MSG.fail.unexpected);
+        }
+      } catch (err) {
+        Swal.fire(UPDATE_MSG.fail[400]);
+      }
+    },
+    [targetId, updateModalData, dispatch]
+  );
 
   if (!cars) {
     return (

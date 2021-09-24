@@ -6,9 +6,11 @@ const carControllers = require("./controllers/car");
 
 app.get("/", carControllers.getAllCarStatuses);
 
-app.get("/:id", carControllers.getASpecificCarStatus);
+app.get("/:id", carControllers.getSpecificCarStatus);
 
 app.post("/", carControllers.createCarStatus);
+
+app.put("/:id", carControllers.updateSpecificCarStatus);
 
 conn
   .then(() => {
