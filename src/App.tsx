@@ -8,7 +8,7 @@ import { selectCarStatus, init } from "@/redux/carStatusReducer";
 import { HeaderBar } from "@/components/lv3";
 import { TableList } from "@/components/lv4";
 
-// import { VerticalBar } from "@/components/lv1";
+import { VerticalBar } from "@/components/lv1";
 
 const rootStyle = css`
   min-width: 600px;
@@ -31,7 +31,7 @@ const App: React.FC = () => {
     <div css={rootStyle}>
       <HeaderBar />
       <div>
-        {/* <VerticalBar data={status} /> */}
+        <VerticalBar data={status} />
         <TableList cars={status} />
       </div>
     </div>
