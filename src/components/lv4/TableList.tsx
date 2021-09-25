@@ -39,6 +39,7 @@ export const TableList: React.FC<{ cars: CAR_STATUS[] }> = ({ cars }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [updateModalData, setUpdateModalData] = useState<CAR_STATUS>();
   const [targetId, setTargetId] = useState<string>();
+  const [isClickUpdateBtn, setIsClickUpdateBtn] = useState(false);
 
   const status = useSelector(selectCarStatus);
   const dispatch = useDispatch();
@@ -98,14 +99,16 @@ export const TableList: React.FC<{ cars: CAR_STATUS[] }> = ({ cars }) => {
       if (updateModalData === undefined) return;
 
       try {
-        const { make, model, year, price, status } = data;
+        const { make, model, year, price } = data;
 
         const res = await api.put(`/${targetId}`, {
           make,
           model,
           year,
           price,
-          status,
+          status: isClickUpdateBtn
+            ? updateModalData.status
+            : !updateModalData.status,
         });
 
         if (res.status === 201) {
@@ -120,7 +123,7 @@ export const TableList: React.FC<{ cars: CAR_STATUS[] }> = ({ cars }) => {
         Swal.fire(UPDATE_MSG.fail[400]);
       }
     },
-    [targetId, updateModalData, dispatch]
+    [targetId, updateModalData, isClickUpdateBtn, dispatch]
   );
 
   if (!cars) {
@@ -174,7 +177,11 @@ export const TableList: React.FC<{ cars: CAR_STATUS[] }> = ({ cars }) => {
         ))}
       </table>
       <Modal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}>
-        <FormField onSubmit={onUpdateHandler} value={updateModalData} />
+        <FormField
+          onSubmit={onUpdateHandler}
+          setIsClickUpdateBtn={setIsClickUpdateBtn}
+          value={updateModalData}
+        />
       </Modal>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/lv1";
 import { LabelTextField, LabelCheckbox } from "@/components/lv2";
@@ -6,7 +6,8 @@ import { LabelTextField, LabelCheckbox } from "@/components/lv2";
 export const FormField: React.FC<{
   onSubmit?: any;
   value?: any;
-}> = ({ onSubmit, value }) => {
+  setIsClickUpdateBtn?: Dispatch<SetStateAction<boolean>>;
+}> = ({ onSubmit, value, setIsClickUpdateBtn }) => {
   const {
     register,
     handleSubmit,
@@ -54,19 +55,38 @@ export const FormField: React.FC<{
         value={value?.price}
         register={register}
       />
-      <LabelCheckbox
+      {/* <LabelCheckbox
         id="status"
         className="block my-8 mx-16"
         label="Sold this vehicle?"
         name="status"
         value={value?.status}
         register={register}
-      />
+      /> */}
       <div className="flex justify-around items-center">
         {value ? (
           <>
-            <Button type="submit">Sold</Button>
-            <Button type="submit">Update</Button>
+            {value.status ? (
+              <Button
+                type="submit"
+                onClick={() => setIsClickUpdateBtn?.(false)}
+              >
+                Mark As Sold
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                onClick={() => setIsClickUpdateBtn?.(false)}
+              >
+                Mark As Live
+              </Button>
+            )}
+            {/* <Button type="submit" onClick={() => setIsClickUpdateBtn?.(false)}>
+              {value.status ? "Mark As Sold" : "Mark As Live"}
+            </Button> */}
+            <Button type="submit" onClick={() => setIsClickUpdateBtn?.(true)}>
+              Update
+            </Button>
           </>
         ) : (
           <>
