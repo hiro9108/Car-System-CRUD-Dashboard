@@ -11,7 +11,7 @@ import { TableList } from "@/components/lv4";
 // import { VerticalBar } from "@/components/lv1";
 
 const rootStyle = css`
-  min-width: 550px;
+  min-width: 600px;
 `;
 
 const App: React.FC = () => {

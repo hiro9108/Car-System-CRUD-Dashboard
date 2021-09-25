@@ -34,10 +34,28 @@ export const carStatusSlice = createSlice({
         el._id === action.payload._id ? action.payload : el
       );
     },
+    filterNumber: (state, action: { payload: CAR_STATUS[] }) => {
+      state.status = action.payload;
+    },
+    filterMakerModelYear: (state, action: { payload: CAR_STATUS[] }) => {
+      state.status = action.payload;
+    },
+    // Todo
+    filterReset: (state, action: { payload: CAR_STATUS[] }) => {
+      console.log("reset", action.payload);
+      state.status = action.payload;
+    },
   },
 });
 
-export const { init, create, update } = carStatusSlice.actions;
+export const {
+  init,
+  create,
+  update,
+  filterNumber,
+  filterMakerModelYear,
+  filterReset,
+} = carStatusSlice.actions;
 
 export const selectCarStatus = (state: RootState) => {
   return state.carStatusReducer.status;
