@@ -8,9 +8,11 @@ type LabelTextFieldProps = {
   css?: SerializedStyles;
   className?: string;
   placeholder?: string;
+  value?: string;
   label: string;
   name: string;
   register: UseFormRegister<FieldValues>;
+  validation?: { required: string };
 };
 
 export const LabelTextField: React.FC<LabelTextFieldProps> = ({
@@ -18,9 +20,11 @@ export const LabelTextField: React.FC<LabelTextFieldProps> = ({
   css,
   className,
   placeholder,
+  value,
   label,
   name,
   register,
+  validation,
 }) => {
   return (
     <div className="flex flex-col">
@@ -30,8 +34,10 @@ export const LabelTextField: React.FC<LabelTextFieldProps> = ({
         css={css}
         className={className}
         placeholder={placeholder}
+        value={value}
         name={name}
         register={register}
+        validation={validation}
       />
     </div>
   );

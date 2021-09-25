@@ -2,15 +2,7 @@ const CarStatus = require("../models/car");
 
 exports.createCarStatus = async (req, res) => {
   try {
-    const { make, model, year, price, status } = req.body;
-
-    const carStatus = new CarStatus({
-      make,
-      model,
-      year,
-      price,
-      status,
-    });
+    const carStatus = new CarStatus(req.body);
     await carStatus.save();
     res.status(201).json({ car: carStatus, message: "New Car Status Created" });
   } catch (err) {
@@ -29,13 +21,26 @@ exports.getAllCarStatuses = async (req, res) => {
   }
 };
 
-exports.getASpecificCarStatus = async (req, res) => {
+exports.getSpecificCarStatus = async (req, res) => {
   try {
     const car = await CarStatus.findById(req.params.id);
     console.log("car", car);
     res.status(201).json({ car, message: "Get Specific Car Status" });
   } catch (err) {
-    console.log("Error getAllCarStatuses", err);
+    console.log("Error getSpecificCarStatus", err);
+    res.status(400).json({ message: "Bad Request" });
+  }
+};
+
+exports.updateSpecificCarStatus = async (req, res) => {
+  try {
+    const car = await CarStatus.findByIdAndUpdate(req.params.id, req.body, {
+      returnOriginal: false,
+    });
+    console.log("response update", car);
+    res.status(201).json({ car, message: "Update Specific Car Status" });
+  } catch (err) {
+    console.log("Error updateSpecificCarStatus", err);
     res.status(400).json({ message: "Bad Request" });
   }
 };

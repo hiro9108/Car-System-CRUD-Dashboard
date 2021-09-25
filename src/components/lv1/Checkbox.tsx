@@ -11,14 +11,16 @@ export const Checkbox: React.FC<{
   id?: string;
   css?: SerializedStyles;
   className?: string;
+  value?: boolean;
   name: string;
   register: any;
-}> = ({ id, css, className, name, register }) => (
+}> = ({ id, css, className, name, value, register }) => (
   <input
     id={id}
     type="checkbox"
     css={[rootStyle, css]}
     className={className}
+    defaultChecked={value}
     {...register(name)}
   />
 );

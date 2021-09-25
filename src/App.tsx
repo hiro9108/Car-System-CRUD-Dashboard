@@ -11,12 +11,12 @@ import { TableList } from "@/components/lv4";
 // import { VerticalBar } from "@/components/lv1";
 
 const rootStyle = css`
-  min-width: 550px;
+  min-width: 600px;
 `;
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-  const data = useSelector(selectCarStatus);
+  const status = useSelector(selectCarStatus);
 
   useEffect(() => {
     api
@@ -31,8 +31,8 @@ const App: React.FC = () => {
     <div css={rootStyle}>
       <HeaderBar />
       <div>
-        {/* <VerticalBar /> */}
-        <TableList cars={data.status} />
+        {/* <VerticalBar data={status} /> */}
+        <TableList cars={status} />
       </div>
     </div>
   );

@@ -1,11 +1,16 @@
 import React, { useState, useCallback } from "react";
-import { css } from "@emotion/react";
-import { api } from "@/utils/api";
 import Swal from "sweetalert2";
-import { VIEW_MSG } from "@/constants";
-import { CAR_STATUS } from "@/types/globalTypes";
+import { useSelector, useDispatch } from "react-redux";
+import { css } from "@emotion/react";
 import { faPen, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { api } from "@/utils/api";
+import { selectCarStatus, update } from "@/redux/carStatusReducer";
+import { VIEW_MSG, UPDATE_MSG } from "@/constants";
+import { CAR_STATUS } from "@/types/globalTypes";
+import { FormField } from "@/components/lv2";
+import { Modal } from "@/components/lv4";
 
 const rootStyle = css`
   table {
@@ -32,6 +37,12 @@ const iconStyle = css`
 
 export const TableList: React.FC<{ cars: CAR_STATUS[] }> = ({ cars }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [updateModalData, setUpdateModalData] = useState<CAR_STATUS>();
+  const [targetId, setTargetId] = useState<string>();
+  const [isClickUpdateBtn, setIsClickUpdateBtn] = useState(false);
+
+  const status = useSelector(selectCarStatus);
+  const dispatch = useDispatch();
 
   const onViewHandler = useCallback(async (e) => {
     try {
@@ -68,9 +79,52 @@ export const TableList: React.FC<{ cars: CAR_STATUS[] }> = ({ cars }) => {
     }
   }, []);
 
-  const onUpdateHandler = useCallback(() => {
-    // TODO: Edit
-  }, []);
+  const openUpdateCarModal = useCallback(
+    (e) => {
+      const targetId = e.target.id;
+
+      const findStatus = status.find((el) => {
+        return el._id === parseInt(targetId);
+      });
+
+      setTargetId(targetId);
+      setUpdateModalData(findStatus);
+      setIsOpen(true);
+    },
+    [status]
+  );
+
+  const onUpdateHandler = useCallback(
+    async (data) => {
+      if (updateModalData === undefined) return;
+
+      try {
+        const { make, model, year, price } = data;
+
+        const res = await api.put(`/${targetId}`, {
+          make,
+          model,
+          year,
+          price,
+          status: isClickUpdateBtn
+            ? updateModalData.status
+            : !updateModalData.status,
+        });
+
+        if (res.status === 201) {
+          // Update the store
+          dispatch(update(res.data.car));
+          Swal.fire(UPDATE_MSG.success);
+          setIsOpen(false);
+        } else {
+          Swal.fire(UPDATE_MSG.fail.unexpected);
+        }
+      } catch (err) {
+        Swal.fire(UPDATE_MSG.fail[400]);
+      }
+    },
+    [targetId, updateModalData, isClickUpdateBtn, dispatch]
+  );
 
   if (!cars) {
     return (
@@ -111,15 +165,24 @@ export const TableList: React.FC<{ cars: CAR_STATUS[] }> = ({ cars }) => {
               </div>
             </td>
             <td className="text-center">
-              <FontAwesomeIcon
-                icon={faPen}
-                css={iconStyle}
-                onClick={onUpdateHandler}
-              />
+              <div
+                className="cursor-pointer inline"
+                id={car._id.toString()}
+                onClick={openUpdateCarModal}
+              >
+                <FontAwesomeIcon icon={faPen} css={iconStyle} />
+              </div>
             </td>
           </tr>
         ))}
       </table>
+      <Modal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}>
+        <FormField
+          onSubmit={onUpdateHandler}
+          setIsClickUpdateBtn={setIsClickUpdateBtn}
+          value={updateModalData}
+        />
+      </Modal>
     </div>
   );
 };

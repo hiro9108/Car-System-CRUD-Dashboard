@@ -25,8 +25,8 @@ export const HeaderBar: React.FC = () => {
     setIsOpen(true);
   }, []);
 
-  const onCreateSubmit = async (data: any) => {
-    const { make, model, year, price, status } = data;
+  const onCreateHandler = async (data: any) => {
+    const { make, model, year, price } = data;
 
     try {
       const res = await api.post("/", {
@@ -34,7 +34,7 @@ export const HeaderBar: React.FC = () => {
         model,
         year,
         price,
-        status,
+        status: true,
       });
 
       if (res.status === 201) {
@@ -58,7 +58,7 @@ export const HeaderBar: React.FC = () => {
           Add New Vehicle
         </Button>
         <Modal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}>
-          <FormField onSubmit={onCreateSubmit} />
+          <FormField onSubmit={onCreateHandler} />
         </Modal>
       </div>
       <SearchBox />
