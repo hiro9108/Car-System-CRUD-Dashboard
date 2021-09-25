@@ -31,7 +31,7 @@ const App: React.FC = () => {
     <div css={rootStyle}>
       <HeaderBar />
       <div>
-        {/* <VerticalBar /> */}
+        {/* <VerticalBar data={status} /> */}
         <TableList cars={status} />
       </div>
     </div>
