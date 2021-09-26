@@ -1,8 +1,8 @@
 import React from "react";
 import { css } from "@emotion/react";
-import { Color } from "@/theme";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Color } from "@/theme";
 
 type SearchIconProps = {
   className?: string;
