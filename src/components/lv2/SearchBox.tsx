@@ -36,8 +36,9 @@ const textFieldStyle = css`
 `;
 
 export const SearchBox: React.FC = () => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, watch } = useForm();
 
+  const watchField = watch(["search"]);
   const [initializeData, serInitializeData] = useState<CAR_STATUS[]>();
 
   const status = useSelector(selectCarStatus);
@@ -52,40 +53,52 @@ export const SearchBox: React.FC = () => {
       .catch((err) => console.log(`Error API Connection: ${err}`));
   }, []);
 
-  const onSubmit: SubmitHandler<{ text: string; filter: string }> = ({
-    text,
+  useEffect(() => {
+    if (watchField[0] === "" && initializeData !== undefined) {
+      dispatch(filterReset(initializeData));
+    }
+  }, [watchField, initializeData, dispatch]);
+
+  const onSubmit: SubmitHandler<{ search: string; filter: string }> = ({
+    search,
     filter,
   }) => {
-    if (text === "") {
+    if (!search) {
       if (initializeData === undefined) return;
       dispatch(filterReset(initializeData));
       return;
     }
 
-    switch (filter) {
-      case "number":
-        const filterNo = status.filter((el) => el._id === parseInt(text));
-        dispatch(filterNumber(filterNo));
-        break;
-      case "make":
-        const filterMake = status.filter((el) => el.make.includes(text));
-        dispatch(filterMakerModelYear(filterMake));
-        break;
-      case "model":
-        const filterModel = status.filter((el) => el.model.includes(text));
-        dispatch(filterMakerModelYear(filterModel));
-        break;
-      case "year":
-        const filterYear = status.filter((el) =>
-          String(el.year).includes(text)
-        );
-        dispatch(filterMakerModelYear(filterYear));
-        break;
-      default:
-        console.log(`Please check the filter value: ${filter}`);
+    if (search && !status.length) {
+      if (initializeData === undefined) return;
+      dispatch(filterReset(initializeData));
+      reset();
+      return;
     }
 
-    reset();
+    if (search)
+      switch (filter) {
+        case "number":
+          const filterNo = status.filter((el) => el._id === parseInt(search));
+          dispatch(filterNumber(filterNo));
+          break;
+        case "make":
+          const filterMake = status.filter((el) => el.make.includes(search));
+          dispatch(filterMakerModelYear(filterMake));
+          break;
+        case "model":
+          const filterModel = status.filter((el) => el.model.includes(search));
+          dispatch(filterMakerModelYear(filterModel));
+          break;
+        case "year":
+          const filterYear = status.filter((el) =>
+            String(el.year).includes(search)
+          );
+          dispatch(filterMakerModelYear(filterYear));
+          break;
+        default:
+          console.log(`Please check the filter value: ${filter}`);
+      }
   };
 
   return (
@@ -94,7 +107,7 @@ export const SearchBox: React.FC = () => {
       <TextField
         css={textFieldStyle}
         placeholder="Search..."
-        name="text"
+        name="search"
         search
         register={register}
       />
