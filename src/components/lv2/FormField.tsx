@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/lv1";
-import { LabelTextField, LabelCheckbox } from "@/components/lv2";
+import { LabelTextField } from "@/components/lv2";
 
 export const FormField: React.FC<{
   onSubmit?: any;
@@ -13,6 +13,7 @@ export const FormField: React.FC<{
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-96">
       <span>{errors.make && errors.make.message}</span>
@@ -55,14 +56,6 @@ export const FormField: React.FC<{
         value={value?.price}
         register={register}
       />
-      {/* <LabelCheckbox
-        id="status"
-        className="block my-8 mx-16"
-        label="Sold this vehicle?"
-        name="status"
-        value={value?.status}
-        register={register}
-      /> */}
       <div className="flex justify-around items-center">
         {value ? (
           <>
@@ -81,9 +74,6 @@ export const FormField: React.FC<{
                 Mark As Live
               </Button>
             )}
-            {/* <Button type="submit" onClick={() => setIsClickUpdateBtn?.(false)}>
-              {value.status ? "Mark As Sold" : "Mark As Live"}
-            </Button> */}
             <Button type="submit" onClick={() => setIsClickUpdateBtn?.(true)}>
               Update
             </Button>

@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { css } from "@emotion/react";
 import Swal from "sweetalert2";
+
 import { CREATE_MSG } from "@/constants";
 import { api } from "@/utils/api";
 import { Color } from "@/theme";
@@ -14,7 +15,7 @@ const rootStyle = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid ${Color.Black0};
+  border-bottom: 1px solid ${Color.PrimaryLight};
 `;
 
 export const HeaderBar: React.FC = () => {

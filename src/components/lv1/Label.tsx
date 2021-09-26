@@ -1,7 +1,10 @@
 import React from "react";
 import { css } from "@emotion/react";
+import { Typography } from "@/theme";
 
-const rootStyle = css``;
+const rootStyle = css`
+  font-family: ${Typography.Primary};
+`;
 
 export const Label: React.FC<{ label: string; htmlFor: string | undefined }> =
   ({ label, htmlFor }) => (

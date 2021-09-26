@@ -1,7 +1,7 @@
 import React from "react";
 import { UseFormRegister, FieldValues } from "react-hook-form";
 import { css, SerializedStyles } from "@emotion/react";
-import { Color } from "@/theme";
+import { Color, Typography } from "@/theme";
 
 type TextFieldProps = {
   id?: string;
@@ -10,16 +10,27 @@ type TextFieldProps = {
   placeholder?: string;
   value?: string;
   name: string;
+  search?: boolean;
   register: UseFormRegister<FieldValues>;
   validation?: { required: string };
 };
 
-const rootStyle = css`
-  border: 1px solid ${Color.Black0};
+const searchRootStyle = css`
+  border: 1px solid ${Color.Primary};
   border-radius: 0.2rem;
   padding: 0.2rem 1rem;
   font-size: 1.2rem;
   outline: none;
+  &::placeholder {
+    color: ${Color.Primary};
+  }
+`;
+
+const rootStyle = css`
+  ${searchRootStyle}
+  box-shadow: 2px 1px 1px ${Color.PrimaryDark};
+  font-size: 1.4rem;
+  font-family: ${Typography.Primary};
 `;
 
 export const TextField: React.FC<TextFieldProps> = ({
@@ -29,13 +40,14 @@ export const TextField: React.FC<TextFieldProps> = ({
   placeholder,
   value,
   name,
+  search,
   register,
   validation,
 }) => {
   return (
     <input
       id={id}
-      css={[rootStyle, css]}
+      css={search ? [searchRootStyle, css] : [rootStyle, css]}
       type="text"
       className={className}
       placeholder={placeholder}
