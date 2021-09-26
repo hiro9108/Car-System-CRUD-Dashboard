@@ -5,7 +5,6 @@ import { SearchIcon } from "./SearchIcon";
 import { VerticalBar } from "./VerticalBar";
 import { H1 } from "./HeadTitle";
 import { Label } from "./Label";
-import { Checkbox } from "./Checkbox";
 import { FilterSelect } from "./FilterSelect";
 
 export {
@@ -16,6 +15,5 @@ export {
   VerticalBar,
   H1,
   Label,
-  Checkbox,
   FilterSelect,
 };
