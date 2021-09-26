@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React from "react";
 import ReactModal from "react-modal";
 import { css } from "@emotion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,7 +8,7 @@ import { Color } from "@/theme";
 ReactModal.setAppElement("#root");
 
 const rootStyle = css`
-  color: green;
+  color: ${Color.PrimaryDark};
 `;
 
 const customStyles = {

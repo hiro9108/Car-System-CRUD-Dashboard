@@ -95,6 +95,7 @@ export const SearchBox: React.FC = () => {
         css={textFieldStyle}
         placeholder="Search..."
         name="text"
+        search
         register={register}
       />
       <WrapperButton type="submit">

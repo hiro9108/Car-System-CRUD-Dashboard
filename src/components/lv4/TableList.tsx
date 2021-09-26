@@ -8,9 +8,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { api } from "@/utils/api";
 import { Color } from "@/theme";
 import { selectCarStatus, update } from "@/redux/carStatusReducer";
-import { VIEW_MSG, UPDATE_MSG } from "@/constants";
+import { UPDATE_MSG } from "@/constants";
 import { CAR_STATUS } from "@/types/globalTypes";
-import { FormField } from "@/components/lv2";
+import { FormField, ViewField } from "@/components/lv2";
 import { Modal } from "@/components/lv4";
 
 const rootStyle = css`
@@ -46,54 +46,21 @@ export const TableList: React.FC<{ cars: CAR_STATUS[] }> = ({ cars }) => {
   const [targetId, setTargetId] = useState<string>();
   const [isClickUpdateBtn, setIsClickUpdateBtn] = useState(false);
 
+  const [isView, setIsView] = useState(false);
+
   const status = useSelector(selectCarStatus);
   const dispatch = useDispatch();
 
-  const onViewHandler = useCallback(async (e) => {
-    try {
-      const params = e.target.id;
-
-      const res = await api.get(`/${params}`);
-
-      if (res.status === 201) {
-        Swal.fire({
-          title: "Car Information",
-          html: `
-            <div>
-              <div>NO : ${res.data.car._id}</div>
-              <div>MAKE : ${res.data.car.make}</div>
-              <div>MODEL : ${res.data.car.model}</div>
-              <div>YEAR : ${res.data.car.year}</div>
-              <div>PRICE : ${res.data.car.price}</div>
-              <div>STATUS : ${res.data.car.status}</div>
-            </div>
-          `,
-          showClass: {
-            popup: "animate__animated animate__fadeInDown",
-          },
-          hideClass: {
-            popup: "animate__animated animate__fadeOutUp",
-          },
-        });
-        setIsOpen(false);
-      } else {
-        Swal.fire(VIEW_MSG.fail.unexpected);
-      }
-    } catch (err) {
-      Swal.fire(VIEW_MSG.fail[400]);
-    }
-  }, []);
-
-  const openUpdateCarModal = useCallback(
-    (e) => {
+  const openCarModal = useCallback(
+    (isViewCondition, e) => {
       const targetId = e.target.id;
 
       const findStatus = status.find((el) => {
         return el._id === parseInt(targetId);
       });
-
       setTargetId(targetId);
       setUpdateModalData(findStatus);
+      setIsView(isViewCondition);
       setIsOpen(true);
     },
     [status]
@@ -164,7 +131,7 @@ export const TableList: React.FC<{ cars: CAR_STATUS[] }> = ({ cars }) => {
               <div
                 className="cursor-pointer inline"
                 id={car._id.toString()}
-                onClick={onViewHandler}
+                onClick={(e) => openCarModal(true, e)}
               >
                 <FontAwesomeIcon icon={faEye} css={iconStyle} />
               </div>
@@ -173,7 +140,7 @@ export const TableList: React.FC<{ cars: CAR_STATUS[] }> = ({ cars }) => {
               <div
                 className="cursor-pointer inline"
                 id={car._id.toString()}
-                onClick={openUpdateCarModal}
+                onClick={(e) => openCarModal(false, e)}
               >
                 <FontAwesomeIcon icon={faPen} css={iconStyle} />
               </div>
@@ -182,11 +149,15 @@ export const TableList: React.FC<{ cars: CAR_STATUS[] }> = ({ cars }) => {
         ))}
       </table>
       <Modal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}>
-        <FormField
-          onSubmit={onUpdateHandler}
-          setIsClickUpdateBtn={setIsClickUpdateBtn}
-          value={updateModalData}
-        />
+        {isView ? (
+          <ViewField value={updateModalData} setIsOpen={setIsOpen} />
+        ) : (
+          <FormField
+            onSubmit={onUpdateHandler}
+            setIsClickUpdateBtn={setIsClickUpdateBtn}
+            value={updateModalData}
+          />
+        )}
       </Modal>
     </div>
   );
