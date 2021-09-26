@@ -10,6 +10,10 @@ import { VerticalBar } from "@/components/lv1";
 import { HeaderBar } from "@/components/lv3";
 import { TableList } from "@/components/lv4";
 
+const rootStyle = css`
+  flex: 5;
+`;
+
 export const MainContent: React.FC = () => {
   const dispatch = useDispatch();
   const status = useSelector(selectCarStatus);
@@ -24,11 +28,7 @@ export const MainContent: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div
-      css={css`
-        flex: 5;
-      `}
-    >
+    <div css={rootStyle}>
       <HeaderBar />
       <div>
         <VerticalBar data={status} />

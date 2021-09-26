@@ -13,13 +13,18 @@ import {
   filterMakerModelYear,
   filterReset,
 } from "@/redux/carStatusReducer";
-import { WrapperButton, TextField, SearchIcon } from "@/components/lv1";
+import {
+  WrapperButton,
+  TextField,
+  SearchIcon,
+  FilterSelect,
+} from "@/components/lv1";
 
 const rootStyle = css`
   width: 350px;
-  border: 1px solid ${Color.Black0};
+  border: 1px solid ${Color.Primary};
   border-radius: 0.2rem;
-  box-shadow: 2px 1px 1px lightgray;
+  box-shadow: 2px 1px 1px ${Color.PrimaryDark};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -85,12 +90,7 @@ export const SearchBox: React.FC = () => {
 
   return (
     <form css={rootStyle} onSubmit={handleSubmit(onSubmit)}>
-      <select className="" {...register("filter")}>
-        <option value="number">No</option>
-        <option value="make">Make</option>
-        <option value="model">Model</option>
-        <option value="year">Year</option>
-      </select>
+      <FilterSelect register={register} />
       <TextField
         css={textFieldStyle}
         placeholder="Search..."

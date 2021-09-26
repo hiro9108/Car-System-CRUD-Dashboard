@@ -11,11 +11,17 @@ type SearchIconProps = {
 
 const rootStyle = css`
   padding: 0.3rem;
-  border: 1px solid ${Color.Black0};
+  border: 1px solid ${Color.Primary};
   font-size: 2.6rem;
+  vertical-align: bottom;
   color: ${Color.White0};
-  background-color: ${Color.Black0};
+  background-color: ${Color.Primary};
   cursor: pointer;
+  transition: ease-in-out 0.3s;
+  &:hover {
+    color: ${Color.Primary};
+    background-color: ${Color.White0};
+  }
 `;
 
 export const SearchIcon: React.FC<SearchIconProps> = ({

@@ -6,6 +6,7 @@ import { faPen, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { api } from "@/utils/api";
+import { Color } from "@/theme";
 import { selectCarStatus, update } from "@/redux/carStatusReducer";
 import { VIEW_MSG, UPDATE_MSG } from "@/constants";
 import { CAR_STATUS } from "@/types/globalTypes";
@@ -13,6 +14,7 @@ import { FormField } from "@/components/lv2";
 import { Modal } from "@/components/lv4";
 
 const rootStyle = css`
+  padding: 0 2.5rem 5rem 2.5rem;
   table {
     width: 100%;
     border-collapse: collapse;
@@ -21,18 +23,21 @@ const rootStyle = css`
     padding: 0.5rem;
     text-align: center;
     vertical-align: top;
-    border: 0.05rem solid #666666;
+    border: 0.05rem solid ${Color.PrimaryLight};
     font-size: 1.2rem;
+    color: ${Color.White0};
+    background-color: ${Color.Primary};
   }
   table td {
     padding: 0.5rem;
     background-color: #fff;
-    border: 0.05rem solid #666666;
+    border: 0.05rem solid ${Color.PrimaryLight};
   }
 `;
 
 const iconStyle = css`
   pointer-events: none;
+  color: ${Color.PrimaryDark};
 `;
 
 export const TableList: React.FC<{ cars: CAR_STATUS[] }> = ({ cars }) => {
