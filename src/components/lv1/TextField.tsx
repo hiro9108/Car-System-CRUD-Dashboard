@@ -23,6 +23,7 @@ const searchRootStyle = css`
   outline: none;
   &::placeholder {
     color: ${Color.Primary};
+    font-family: ${Typography.Primary};
   }
 `;
 
