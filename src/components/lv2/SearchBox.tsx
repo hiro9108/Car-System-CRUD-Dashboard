@@ -36,9 +36,8 @@ const textFieldStyle = css`
 `;
 
 export const SearchBox: React.FC = () => {
-  const { register, handleSubmit, reset, watch } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
-  const watchField = watch(["search"]);
   const [initializeData, serInitializeData] = useState<CAR_STATUS[]>();
 
   const status = useSelector(selectCarStatus);
@@ -52,12 +51,6 @@ export const SearchBox: React.FC = () => {
       })
       .catch((err) => console.log(`Error API Connection: ${err}`));
   }, []);
-
-  useEffect(() => {
-    if (watchField[0] === "" && initializeData !== undefined) {
-      dispatch(filterReset(initializeData));
-    }
-  }, [watchField, initializeData, dispatch]);
 
   const onSubmit: SubmitHandler<{ search: string; filter: string }> = ({
     search,

@@ -22,7 +22,7 @@ const customStyles = {
   },
 };
 
-export const Modal: React.FC<{ modalIsOpen: any; setIsOpen: any }> = ({
+export const Modal: React.FC<{ modalIsOpen: boolean; setIsOpen: any }> = ({
   children,
   modalIsOpen,
   setIsOpen,

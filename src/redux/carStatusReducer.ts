@@ -40,7 +40,6 @@ export const carStatusSlice = createSlice({
     filterMakerModelYear: (state, action: { payload: CAR_STATUS[] }) => {
       state.status = action.payload;
     },
-    // Todo
     filterReset: (state, action: { payload: CAR_STATUS[] }) => {
       console.log("reset", action.payload);
       state.status = action.payload;

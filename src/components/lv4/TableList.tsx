@@ -1,14 +1,14 @@
 import React, { useState, useCallback } from "react";
 import Swal from "sweetalert2";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { css } from "@emotion/react";
 import { faPen, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { api } from "@/utils/api";
 import { Color } from "@/theme";
-import { selectCarStatus, update } from "@/redux/carStatusReducer";
-import { UPDATE_MSG } from "@/constants";
+import { update } from "@/redux/carStatusReducer";
+import { UPDATE_MSG, VALIDATION_MSG } from "@/constants";
 import { CAR_STATUS } from "@/types/globalTypes";
 import { FormField, ViewField } from "@/components/lv2";
 import { Modal } from "@/components/lv4";
@@ -30,7 +30,7 @@ const rootStyle = css`
   }
   table td {
     padding: 0.5rem;
-    background-color: #fff;
+    background-color: ${Color.White0};
     border: 0.05rem solid ${Color.PrimaryLight};
   }
 `;
@@ -41,21 +41,19 @@ const iconStyle = css`
 `;
 
 export const TableList: React.FC<{ cars: CAR_STATUS[] }> = ({ cars }) => {
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const [updateModalData, setUpdateModalData] = useState<CAR_STATUS>();
   const [targetId, setTargetId] = useState<string>();
+  const [updateModalData, setUpdateModalData] = useState<CAR_STATUS>();
+  const [isView, setIsView] = useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
   const [isClickUpdateBtn, setIsClickUpdateBtn] = useState(false);
 
-  const [isView, setIsView] = useState(false);
-
-  const status = useSelector(selectCarStatus);
   const dispatch = useDispatch();
 
   const openCarModal = useCallback(
     (isViewCondition, e) => {
       const targetId = e.target.id;
 
-      const findStatus = status.find((el) => {
+      const findStatus = cars.find((el) => {
         return el._id === parseInt(targetId);
       });
       setTargetId(targetId);
@@ -63,7 +61,7 @@ export const TableList: React.FC<{ cars: CAR_STATUS[] }> = ({ cars }) => {
       setIsView(isViewCondition);
       setIsOpen(true);
     },
-    [status]
+    [cars]
   );
 
   const onUpdateHandler = useCallback(
@@ -72,6 +70,19 @@ export const TableList: React.FC<{ cars: CAR_STATUS[] }> = ({ cars }) => {
 
       try {
         const { make, model, year, price } = data;
+
+        if (isNaN(year) && isNaN(price)) {
+          Swal.fire(VALIDATION_MSG("Error Year and Price Fields"));
+          return;
+        }
+        if (isNaN(year)) {
+          Swal.fire(VALIDATION_MSG("Error Year Field"));
+          return;
+        }
+        if (isNaN(price)) {
+          Swal.fire(VALIDATION_MSG("Error Price Field"));
+          return;
+        }
 
         const res = await api.put(`/${targetId}`, {
           make,

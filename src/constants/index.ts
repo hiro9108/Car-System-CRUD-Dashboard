@@ -74,4 +74,12 @@ const UPDATE_MSG: COMMON_MSG_TYPE = {
   },
 };
 
-export { CREATE_MSG, VIEW_MSG, UPDATE_MSG };
+const VALIDATION_MSG = (title: string): SweetAlertOptions => {
+  return {
+    title,
+    text: "Please enter a Number",
+    icon: "error",
+  };
+};
+
+export { CREATE_MSG, VIEW_MSG, UPDATE_MSG, VALIDATION_MSG };

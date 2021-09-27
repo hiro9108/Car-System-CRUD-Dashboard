@@ -12,7 +12,7 @@ type LabelTextFieldProps = {
   label: string;
   name: string;
   register: UseFormRegister<FieldValues>;
-  validation?: { required: string; pattern?: any };
+  validation?: { required: string; valueAsNumber?: boolean };
 };
 
 export const LabelTextField: React.FC<LabelTextFieldProps> = ({

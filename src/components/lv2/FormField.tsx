@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
 import { css } from "@emotion/react";
+
 import { Color } from "@/theme";
 import { Button } from "@/components/lv1";
 import { LabelTextField } from "@/components/lv2";
@@ -61,6 +62,7 @@ export const FormField: React.FC<{
         register={register}
         validation={{
           required: "Required field",
+          valueAsNumber: true,
         }}
       />
 
@@ -75,6 +77,7 @@ export const FormField: React.FC<{
         register={register}
         validation={{
           required: "Required field",
+          valueAsNumber: true,
         }}
       />
       <div className="flex justify-around items-center">
