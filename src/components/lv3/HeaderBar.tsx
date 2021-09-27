@@ -1,11 +1,13 @@
 import React, { useState, useCallback } from "react";
+import { SubmitHandler } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { css } from "@emotion/react";
 import Swal from "sweetalert2";
 
-import { CREATE_MSG } from "@/constants";
+import { CREATE_MSG, VALIDATION_MSG } from "@/constants";
 import { api } from "@/utils/api";
 import { Color } from "@/theme";
+import { CAR_STATUS } from "@/types/globalTypes";
 import { create } from "@/redux/carStatusReducer";
 import { Button } from "@/components/lv1";
 import { SearchBox, FormField } from "@/components/lv2";
@@ -26,8 +28,21 @@ export const HeaderBar: React.FC = () => {
     setIsOpen(true);
   }, []);
 
-  const onCreateHandler = async (data: any) => {
+  const onCreateHandler: SubmitHandler<CAR_STATUS> = async (data) => {
     const { make, model, year, price } = data;
+
+    if (isNaN(year) && isNaN(price)) {
+      Swal.fire(VALIDATION_MSG("Error Year and Price Fields"));
+      return;
+    }
+    if (isNaN(year)) {
+      Swal.fire(VALIDATION_MSG("Error Year Field"));
+      return;
+    }
+    if (isNaN(price)) {
+      Swal.fire(VALIDATION_MSG("Error Price Field"));
+      return;
+    }
 
     try {
       const res = await api.post("/", {
