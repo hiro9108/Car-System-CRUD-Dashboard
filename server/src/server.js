@@ -7,7 +7,7 @@ const carControllers = require("./controllers/car");
 const PORT = process.env.PORT || 8000;
 
 app.get("/test", (req, res) => {
-  res.send("Test Message");
+  res.send("Test Message cors");
 });
 
 app.get("/", carControllers.getAllCarStatuses);
