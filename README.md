@@ -1,5 +1,9 @@
 # Car System CRUD Dashboard
 
+## Deploy URL
+
+> https://car-system-crud-dashboard.vercel.app
+
 ## Front-End
 
 - React.js
@@ -12,6 +16,16 @@
 - Node.js
 - Express
 - MongoDB
+
+## CICD tool
+
+- Github Action
+
+## Hosts
+
+- Frontend : Vercel
+- Backend : Heroku (API server)
+- Database : MongoDB Atlas
 
 # Usage
 
@@ -32,5 +46,6 @@
 1. `cd server`
 1. `npm install`
 1. `cp -p .env.example .env`
+1. `Please set the value of your MONGODB_URL`
 1. `npm start`
    > Running on Port 8000
