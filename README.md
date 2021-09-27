@@ -19,7 +19,7 @@
 
 ## CICD tool
 
-- Github Action
+- Github Actions
 
 ## Hosts
 
