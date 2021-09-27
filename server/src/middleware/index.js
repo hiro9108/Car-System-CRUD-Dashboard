@@ -4,7 +4,7 @@ const carsRoutes = require("../routes/route");
 
 const app = express();
 
-app.use(cors({ origin: /\.herokuapp\.com$/ }));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/", carsRoutes);
