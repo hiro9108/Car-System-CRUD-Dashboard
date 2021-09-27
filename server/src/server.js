@@ -4,6 +4,10 @@ const conn = require("./connection/conn");
 
 const carControllers = require("./controllers/car");
 
+app.get("/test", (req, res) => {
+  res.send("Test Message");
+});
+
 app.get("/", carControllers.getAllCarStatuses);
 
 app.get("/:id", carControllers.getSpecificCarStatus);
